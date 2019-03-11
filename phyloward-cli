@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import phyloward.__main__ as tbj
+
+dirname = os.path.dirname(__file__)
+sys.path.insert(0, os.path.join(dirname, '.'))
+# sys.path.extend(os.environ['PATH'].split(':'))
+# print(sys.path)
+
+tbj.PACKAGE_NAME = os.path.basename(__file__)
+tbj.main()

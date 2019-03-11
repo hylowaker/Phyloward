@@ -1,0 +1,16 @@
+{
+  "profile_bacteria": "profile_bact.hmm",
+  "profile_archaea": "profile_arch.hmm",
+  "profile_custom": null,
+
+  "prodigal_path": "prodigal",
+  "prodigal_custom_args": null,
+  "hmmsearch_path": "hmmsearch",
+  "hmmsearch_custom_args": null,
+  "mafft_path": "mafft",
+  "mafft_custom_args": null,
+  "fasttree_path": "FastTree",
+  "fasttree_custom_args": null,
+  "raxml_path": "raxmlHPC",
+  "raxml_custom_args": null
+}
