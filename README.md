@@ -42,21 +42,25 @@ The following programs should be installed in advance.
 Make sure that each of `prodigal`, `hmmsearch`, `mafft`, 
   and `FastTree` command is executable in shell.
 
-### Clone a copy of PHYLOWARD 
-Clone this project via `git` command.
+If you have `conda` installed, you can install dependencies by simple command:
+```
+$ conda install -c bioconda prodigal hmmer mafft fasttree
+```
+
+### Download and Installation 
+Clone this project with Git.
 
     $ git clone https://github.com/hylowaker/Phyloward.git
 
 or you can manually download zip file from
 [here](https://github.com/hylowaker/Phyloward/archive/master.zip).
 
-### Install with `pip3`
 The package can be installed by `pip3`, a package manager for Python 3. (If your default pip is Python 3 version, you may use `pip` instead of `pip3`)
 
     $ cd Phyloward
     $ pip3 install .
 
-#### Using without installation
+### Using without installation
 To run the CLI program without installation by `pip3`,
   you can just execute `phyloward-cli` file.
 Symlink the file somewhere else you prefer,
@@ -64,7 +68,7 @@ Symlink the file somewhere else you prefer,
 
 
 ### Basic command line use
-After Installation, you can run the program in command line environment.
+After Installation, try invoking the program in shell.
 
     $ phyloward
 
@@ -98,9 +102,9 @@ The actual pipeline can be executed with two subcommands: `extract` and `align`
 
 
 ## Import as Python package
-It is also possible to run the pipeline programmatically. Simply load the package with import statement in your Python code.
+It is also possible to import the package and run the pipeline in your Python code.
 
-Below is the example code to extract core genes from single genome file.
+An example code to extract core genes from single genome file is shown below.
 ```python
 from phyloward import extractor
 
@@ -121,5 +125,5 @@ _We're working on a manuscript for Phyloward now._
 
 
 ## Copyright and License
-Copyright (c) 2018 JaeHeung Han  
+Copyright (c) 2018-2019 JaeHeung Han  
 Phyloward is available under the terms of [GPLv3](LICENSE).
