@@ -10,5 +10,5 @@ prune build
 prune dist
 recursive-exclude *.egg-info *
 recursive-include tests *
-recursive-include uacg *.hmm
-recursive-include uacg config.json
+recursive-include phyloward *.hmm
+recursive-include phyloward config.json
