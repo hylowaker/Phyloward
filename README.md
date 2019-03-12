@@ -42,30 +42,20 @@ The following programs should be installed in advance.
 Make sure that each of `prodigal`, `hmmsearch`, `mafft`, 
   and `FastTree` command is executable in shell.
 
-If you have `conda` installed, you can install dependencies by simple command:
+If you have `conda` installed, you can install dependencies by a simple command:
 ```
 $ conda install -c bioconda prodigal hmmer mafft fasttree
 ```
 
 ### Download and Installation 
-Clone this project with Git.
+Clone this project with `git`.
 
     $ git clone https://github.com/hylowaker/Phyloward.git
-
-or you can manually download zip file from
-[here](https://github.com/hylowaker/Phyloward/archive/master.zip).
 
 The package can be installed by `pip3`, a package manager for Python 3. (If your default pip is Python 3 version, you may use `pip` instead of `pip3`)
 
     $ cd Phyloward
     $ pip3 install .
-
-### Using without installation
-To run the CLI program without installation by `pip3`,
-  you can just execute `phyloward-cli` file.
-Symlink the file somewhere else you prefer,
-  then add the path to PATH variable in order to access the program conveniently.
-
 
 ### Basic command line use
 After Installation, try invoking the program in shell.
@@ -86,7 +76,7 @@ The actual pipeline can be executed with two subcommands: `extract` and `align`
          
          $ phyloward extract much doge
     
-    If you are dealing with archaeal genome, add `--archaea` option. 
+    Note: If you are dealing with archaeal genome, add `--archaea` option.
 
 2.  After several genomes were processed with `phyloward extract`,
     you can align those core gene sequences to infer phylogenetic trees using `phyloward align` command.

@@ -162,7 +162,7 @@ class _Sequence:
         b = self._domain_end
         if a is not None and b is not None:
             return self._protein[a:b]
-        return None
+        return ''
 
     @property
     def nucleotide(self):
@@ -174,7 +174,7 @@ class _Sequence:
         b = self._domain_end
         if a is not None and b is not None:
             return self._protein[a*3:b*3]
-        return None
+        return ''
 
     def __bool__(self):
         return bool(self._nucleotide)
@@ -233,33 +233,10 @@ class ExtractedCoreGenes:
                 seq = _Sequence(hit['protein'], hit['nucleotide'])
                 try: 
                     seq.set_domain_region(hit['domain_hit'][0], hit['domain_hit'][1])
-                except IndexError:
+                except (TypeError, IndexError):
                     pass  # TODO
                 return seq
         return _Sequence('', '')
-
-    # def best_hit_sequence(self, gene, *, nucleotide=False):
-    #     """Return hit sequence with best e-value"""
-    #     hits = self.get_hit_list(gene)  # assumes already sorted by evalue!
-    #     for hit in hits:
-    #         if hit.get('is_included'):
-    #             return hit['protein' if not nucleotide else 'nucleotide']
-    #     return None
-    
-    # def best_domain_hit_sequence(self, gene, *, nucleotide=False):
-    #     hits = self.get_hit_list(gene)  # assumes already sorted by evalue!
-    #     for hit in hits:
-    #         if hit.get('is_included'):
-    #             try:
-    #                 hit['domain_hit'][0], hit['domain_hit'][1]
-    #             except IndexError:
-    #                 return None
-    #             if nucleotide:
-    #                 dom_slice = slice(hit['domain_hit'][0]*3, hit['domain_hit'][1]*3)
-    #             else:
-    #                 dom_slice = slice(*hit['domain_hit'])
-    #             return hit['protein' if not nucleotide else 'nucleotide'][dom_slice]
-    #     return None
 
     def as_json(self, indent=None):
         import json

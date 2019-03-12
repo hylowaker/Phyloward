@@ -266,7 +266,7 @@ class _SequenceBunch:
         tempf_align = os.path.join(tempdir, str(uuid.uuid1()) + '.fasta.tmp')
 
         d = dict((label, seq.nucleotide) if nucleotide else (label, seq.protein)
-                 for label, seq in self.items())
+                 for label, seq in self.items())  # TODO Domain region align
         if sum(bool(seq) for seq in d.values()) < 3:
             raise NotEnoughGenesExtracted('# of the extracted genes less than 3')
         elif not any(d.values()):
