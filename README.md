@@ -42,7 +42,7 @@ The following programs should be installed in advance.
 Make sure that each of `prodigal`, `hmmsearch`, `mafft`, 
   and `FastTree` command is executable in shell.
 
-If you have `conda` installed, you can install dependencies by a simple command:
+Alternatively, if you are using Linux or macOS and have `conda` installed, you can install dependencies by a simple command:
 ```
 $ conda install -c bioconda prodigal hmmer mafft fasttree
 ```
