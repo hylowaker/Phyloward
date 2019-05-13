@@ -55,6 +55,7 @@ def _argument_parser():
                                 help='Numbers of simultaneous workers (default: Use all available cores)')
     # parser_extract.add_argument('--table', metavar='N', default='11',
     #                             help='Translation table for Prodigal (default: 11)')
+    # TODO custom profile
     # TODO metadata args
 
     # --------------- Argparse: align ---------------

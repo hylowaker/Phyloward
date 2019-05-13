@@ -198,7 +198,7 @@ class HmmerParser(object):
                                 score = float(sl[2])
                                 if score > maxscore:
                                     # sl[9] 1-based, sl[10] inclusive
-                                    hit_attr_list[i]['domain_hit'] = (int(sl[9]) - 1, int(sl[10]))
+                                    hit_attr_list[i]['domain_hit'] = '{}:{}'.format(int(sl[9]) - 1, int(sl[10]))
                                     maxscore = score
                         i += 1
                     else:

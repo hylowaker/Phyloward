@@ -232,7 +232,8 @@ class ExtractedCoreGenes:
             if hit.get('is_included'):
                 seq = _Sequence(hit['protein'], hit['nucleotide'])
                 try: 
-                    seq.set_domain_region(hit['domain_hit'][0], hit['domain_hit'][1])
+                    hit_start, hit_end = hit['domain_hit'].split(':')
+                    seq.set_domain_region(hit_start, hit_end)
                 except (TypeError, IndexError):
                     pass  # TODO
                 return seq
