@@ -234,7 +234,7 @@ class ExtractedCoreGenes:
                 try: 
                     hit_start, hit_end = hit['domain_hit'].split(':')
                     seq.set_domain_region(hit_start, hit_end)
-                except (TypeError, IndexError):
+                except (TypeError, IndexError, AttributeError):
                     pass  # TODO
                 return seq
         return _Sequence('', '')
