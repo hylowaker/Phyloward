@@ -185,7 +185,8 @@ def _pipe_extract():
     outdir = args.out
     workers = args.process if args.process else (os.cpu_count() if os.cpu_count() else 1)
     pref_dom = 'ARCHAEAL' if args.archaea else 'BACTERIAL'
-    print('# Custom HMM profile: ' + args.custom, file=sys.stderr)
+    if args.custom:
+        print('# Custom HMM profile: ' + args.custom, file=sys.stderr)
 
     writer = _writes_extracted(outdir, indent=4)
 
