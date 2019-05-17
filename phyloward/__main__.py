@@ -356,12 +356,15 @@ def _dump_aligned_results(result, outdir, label=None):
 
     # logfile
     with open('Log.log', 'w') as fh:
-        print('Genomes included in the analysis.', file=fh)
+        print('HMM profile:', file=fh)
+        print(result._comments['hmm_profile'])
+
+        print('Genomes included in the analysis:', file=fh)
         print('uid', 'label', sep='\t', file=fh)
         for uid, label in result.uid_label.items():
             print(uid, label, sep='\t', file=fh)
         print(file=fh)
-        print('The length of alignments', file=fh)
+        print('The length of alignments:', file=fh)
         for gene, seqdict in result._data.items():
             try:
                 len_ = seqdict.length_of_alignment()

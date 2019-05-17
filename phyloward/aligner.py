@@ -447,6 +447,7 @@ class AlignedCoreGenes():
         # --- are profiles identical? ---
         if len(set(each.info['hmm_profile'] for each in extracted_list)) != 1:
             raise ValueError('HMM profile not identical!')
+        cg_aligned._comments['hmm_profile'] = extracted_list[0].info['hmm_profile']
 
         # -- Mode: Full sequence or Best 1 domain
         # if mode == 'full':
