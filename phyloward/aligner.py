@@ -273,7 +273,7 @@ class _SequenceBunch:
             d = dict((label, seq.nucleotide) if nucleotide else (label, seq.protein)
                      for label, seq in self.items())
 
-        if sum(bool(seq) for seq in d.values()) < 3:
+        if sum(bool(s) for s in d.values()) < 3:
             raise NotEnoughGenesExtracted('Extracted genes are less than 3')
         elif not any(d.values()):
             raise NotEnoughGenesExtracted
@@ -295,7 +295,7 @@ class _SequenceBunch:
         # --- Assign aligned Sequence values ---
         for label, s in aligned_map.items():
             if not nucleotide:  # also fill codon alignments
-                nt = list(self[label].nucleotide)
+                nt = list(self[label].nucleotide_domain if domain_only else self[label].nucleotide)
                 for i, ch in enumerate(s):
                     if ch == '-':
                         nt[i * 3:i * 3] = list('---')
@@ -324,7 +324,7 @@ class _SequenceBunch:
             if not seq.is_aligned:
                 raise NotAlignedError
 
-            if seq_type in ('amino',' protein', 'prot', 'pro', 'aa'):
+            if seq_type in ('amino', 'protein', 'prot', 'pro', 'aa'):
                 result[label] = seq.protein
             elif seq_type in ('nucleotide', 'nucl', 'nuc', 'nt'):
                 result[label] = seq.nucleotide

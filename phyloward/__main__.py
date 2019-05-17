@@ -315,6 +315,7 @@ def _pipe_align():
         cg_aligned.add_comment('phylogeny_program', str(cg_aligned.tree_program_info))
         cg_aligned.calculate_gene_support_index(threshold=gsi_threshold)
 
+    # TODO asynchronous
     # write final results -------------------------------------------------
     cg_aligned.add_comment('created_on', time.strftime('%b %d %Y %H:%M:%S'))
     cg_aligned.add_comment('{}_pipeline_version'.format(PACKAGE_NAME), ver)

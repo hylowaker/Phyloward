@@ -170,7 +170,7 @@ class _Sequence:
         a = self._domain_start
         b = self._domain_end
         if a is not None and b is not None:
-            return self._protein[a*3:b*3]
+            return self._nucleotide[a*3:b*3]
         return ''
 
     def __bool__(self):
@@ -230,9 +230,9 @@ class ExtractedCoreGenes:
                 seq = _Sequence(hit['protein'], hit['nucleotide'])
                 try: 
                     hit_start, hit_end = hit['domain_hit'].split(':')
-                    seq.set_domain_region(hit_start, hit_end)
-                except (TypeError, IndexError, AttributeError):
-                    pass  # TODO
+                    seq.set_domain_region(int(hit_start), int(hit_end))
+                except AttributeError:
+                    pass
                 return seq
         return _Sequence('', '')
 
