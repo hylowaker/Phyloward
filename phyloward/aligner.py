@@ -197,7 +197,7 @@ class NotAlignedError(ValueError):
     pass
 
 
-class _SequenceAligned(extractor._Sequence):
+class _SequenceAligned(extractor._Sequence):  # TODO Need refactor: Do not inherit
     __slots__ = ('is_aligned')
 
     def __init__(self, prot, nucl, *, aligned=False):
@@ -220,6 +220,7 @@ class _SequenceBunch:
     def __init__(self):
         self._data = OrderedDict()
         self._is_aligned = False
+        self._is_aligned_by_domain = False  # TODO
         self._is_nucl_alignment = False
         self.is_filtered = False
         self._fasta_seq = None
@@ -261,17 +262,21 @@ class _SequenceBunch:
     def items(self):
         return self._data.items()
 
-    def align(self, nucleotide=False):
+    def align(self, domian_only=True, nucleotide=False):  # TODO Refactor domain alignment. it's spaghetti code for now :(
         tempdir = tempfile.gettempdir()
-        tempf_align = os.path.join(tempdir, str(uuid.uuid1()) + '.fasta.tmp')
+        tempf_align = os.path.join(tempdir, str(uuid.uuid1()) + '.fasta.tmp')  # TODO reduce disk io?
 
-        d = dict((label, seq.nucleotide) if nucleotide else (label, seq.protein)
-                 for label, seq in self.items())  # TODO Domain region align
+        if domian_only:
+            d = dict((label, seq.nucleotide_domain) if nucleotide else (label, seq.protein_domain)
+                     for label, seq in self.items())
+        else:
+            d = dict((label, seq.nucleotide) if nucleotide else (label, seq.protein)
+                     for label, seq in self.items())
+
         if sum(bool(seq) for seq in d.values()) < 3:
-            raise NotEnoughGenesExtracted('# of the extracted genes less than 3')
+            raise NotEnoughGenesExtracted('Extracted genes are less than 3')
         elif not any(d.values()):
             raise NotEnoughGenesExtracted
-        # need to handle these exceptions!
 
         # --- Aligning process ---
         with open(tempf_align, 'w') as fh:  # writes temporary file
@@ -302,6 +307,7 @@ class _SequenceBunch:
             else:
                 self[label] = _SequenceAligned('', s, aligned=True)  # TODO fix info loss!
         self._is_aligned = True
+        self._is_aligned_by_domain = True if domian_only else False
         self._is_nucl_alignment = True if nucleotide else False
 
         try:  # removes temporary file
@@ -318,7 +324,7 @@ class _SequenceBunch:
             if not seq.is_aligned:
                 raise NotAlignedError
 
-            if seq_type in ('protein', 'prot', 'pro', 'aa'):
+            if seq_type in ('amino',' protein', 'prot', 'pro', 'aa'):
                 result[label] = seq.protein
             elif seq_type in ('nucleotide', 'nucl', 'nuc', 'nt'):
                 result[label] = seq.nucleotide
@@ -387,6 +393,7 @@ class AlignedCoreGenes():
         self._is_archaeal = False
         self._core_genes = None
         self.is_aligned = False
+        self._is_domain_only = False
         self._is_nucleotide_alignment = False
         self._excluded = []
         try:
@@ -436,6 +443,10 @@ class AlignedCoreGenes():
             cg_aligned._is_archaeal = False
         else:
             raise ValueError('All genomes must belong to same domain(superkingdom).')
+
+        # --- are profiles identical? ---
+        if len(set(each.info['hmm_profile'] for each in extracted_list)) != 1:
+            raise ValueError('HMM profile not identical!')
 
         # -- Mode: Full sequence or Best 1 domain
         # if mode == 'full':
@@ -548,13 +559,14 @@ class AlignedCoreGenes():
     def _align_each(self, gene):
         seqdict = self[gene]  # type: _SequenceBunch
         try:
-            seqdict.align()
+            seqdict.align(domain_only=self._is_domain_only, nucleotide=self._is_nucleotide_alignment)
         except NotEnoughGenesExtracted:
             self._excluded.append(gene)
 
-    def align(self, *, nucleotide=False, cutoff=0., workers=1, report_progress=None):
+    def align(self, *, domain_only=True, nucleotide=False, cutoff=0., workers=1, report_progress=None):
         """Dummy Docstring"""
-        self._is_nucleotide_alignment = True if nucleotide else False
+        self._is_domain_only = domain_only
+        self._is_nucleotide_alignment = nucleotide
 
         progress_reporter = None
         if report_progress:

@@ -15,9 +15,6 @@ _file_abspath = os.path.dirname(os.path.abspath(__file__))
 PATH_PROFILE_HMM_ARCH = os.path.join(_file_abspath, 'profile_arch.hmm')
 PATH_PROFILE_HMM_BACT = os.path.join(_file_abspath, 'profile_bact.hmm')
 
-# PATH_PROFILE_HMM_ARCH = os.path.join(_file_abspath, '194initial_candidates_ch.hmm')  # TODO candidate TEST!!!!
-# PATH_PROFILE_HMM_ARCH = os.path.join(_file_abspath, '88_candidates_step3.hmm')
-
 _ssu_bac = 'RF00177'  # test
 _ssu_arc = 'RF01959'
 _lsu_bac = 'RF02541'
@@ -260,7 +257,7 @@ class ExtractedCoreGenes:
 # ========= Module functions =========
 
 
-def extract_core_genes(file, *, archaea=False, **kwargs):
+def extract_core_genes(file, *, is_archaea=False, profile=None, **kwargs):
     """Search core genes from a genome file
 
     :param file: A FASTA file with genome sequences.
@@ -285,7 +282,9 @@ def extract_core_genes(file, *, archaea=False, **kwargs):
     tmpaa, tmpnt = prodigal.temp_path
 
     # ------ hmmsearch ------
-    profile = PATH_PROFILE_HMM_ARCH if archaea else PATH_PROFILE_HMM_BACT
+    if profile is None:
+        profile = PATH_PROFILE_HMM_ARCH if is_archaea else PATH_PROFILE_HMM_BACT
+
     hmmsearch = HmmsearchPipe(profile, tmpaa)
     try:
         rawver = hmmsearch.get_version()
@@ -360,7 +359,8 @@ def extract_core_genes(file, *, archaea=False, **kwargs):
         meta['label'] = os.path.splitext(os.path.basename(file))[0]
     meta['label'] = re.sub(r'\s+', '_', meta['label'])  # replace whitespaces
     meta['uid'] = uuid.uuid1().int >> 64
-    meta['domain'] = 'Bacteria' if not archaea else 'Archaea'
+    meta['domain'] = 'Bacteria' if not is_archaea else 'Archaea'
+    meta['hmm_profile'] = profile
     meta['program'] = progname + ' ' + progver
     meta['created_on'] = time.strftime('%b %d %Y %H:%M:%S')
     meta['extracted_from'] = file

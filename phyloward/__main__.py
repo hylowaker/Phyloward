@@ -49,13 +49,14 @@ def _argument_parser():
                                      'should be stored')
     parser_extract.add_argument('-a', '--archaea', action='store_true',
                                 help='ARCHAEA mode')
+    parser_extract.add_argument('-c', '--custom', metavar='HMM',
+                                help='Use custom HMM profile')
     parser_extract.add_argument('-l', '--label', metavar='S',
                                 help='Name of the genome (Ignored if INPUT is directory)')
     parser_extract.add_argument('-p', '--process', metavar='N', type=int,
                                 help='Numbers of simultaneous workers (default: Use all available cores)')
     # parser_extract.add_argument('--table', metavar='N', default='11',
     #                             help='Translation table for Prodigal (default: 11)')
-    # TODO custom profile
     # TODO metadata args
 
     # --------------- Argparse: align ---------------
@@ -67,8 +68,11 @@ def _argument_parser():
     parser_align.add_argument('-t', '--tree', action='store_true',
                               help='Include phylogenetic trees in the result. '
                                    'The tree is represented as Newick format, process by FastTree.')
+    parser_align.add_argument('-g', '--full-gene', action='store_true',
+                              help='Include whole gene sequence instead of trimmed domain region. '
+                                   'Note that the result may include duplicated sequences if you enable this option.')
     _choice_alias = {'nt': 'nucleotide', 'nucl': 'nucleotide',
-                     'aa': 'protein', 'prot': 'protein'}
+                     'amino': 'protein', 'aa': 'protein', 'prot': 'protein'}
     parser_align.add_argument('-s', '--seq-type', metavar='S', action=AliasedAction,
                               choices=['nucleotide', 'protein', 'codon', 'codon12'],
                               alias_map=_choice_alias,
@@ -119,7 +123,7 @@ def _extract_single(file, label=None):
     try:
         # Main Part
         cg_extracted = extractor.extract_core_genes(
-            file, archaea=args.archaea, label=label,
+            file, is_archaea=args.archaea, profile=args.custom, label=label,
             # codon_table=args.table
         )
     except RuntimeError:
@@ -181,6 +185,7 @@ def _pipe_extract():
     outdir = args.out
     workers = args.process if args.process else (os.cpu_count() if os.cpu_count() else 1)
     pref_dom = 'ARCHAEAL' if args.archaea else 'BACTERIAL'
+    print('# Custom HMM profile: ' + args.custom, file=sys.stderr)
 
     writer = _writes_extracted(outdir, indent=4)
 
@@ -239,9 +244,15 @@ def _pipe_align():
     # set parameters ------------------------------------------------------
     input_dir = args.input_dir
     result_dir = args.result_dir
+    domain_only = not args.full_gene
     seq_type = args.seq_type
     workers = args.process if args.process else (os.cpu_count() if os.cpu_count() else 1)
     cutoff = args.filter / 100
+
+    print('# Draw tree: {}'.format('YES' if args.tree else 'NO'), file=sys.stderr)
+    print('# Use whole gene: {}'.format('NO' if domain_only else 'YES'), file=sys.stderr)
+    print('# Sequence type: {}'.format(seq_type), file=sys.stderr)
+
     if not 0 <= cutoff <= 1.:
         print('# ERROR: filter parameter must be in range [0, 100]', file=sys.stderr)
         sys.exit(2)
@@ -290,10 +301,10 @@ def _pipe_align():
     print('# Assuming all {} inputs are {}...'.format(cg_aligned.number_of_genomes(), domain_msg),
           file=sys.stderr)
     isnt = True if seq_type in ('nucleotide', 'nt', 'nucl') else False
-    cg_aligned.align(nucleotide=isnt, cutoff=cutoff, workers=workers, report_progress=progress)  # time-consuming
+    cg_aligned.align(domain_only=domain_only, nucleotide=isnt, cutoff=cutoff, workers=workers, report_progress=progress)  # time-consuming
     info_alignment_program = cg_aligned.msa_program_info  # comment
     cg_aligned.add_comment('arguments', ' '.join(sys.argv))
-    cg_aligned.add_comment('domain', 'Archaea' if cg_aligned.is_archaeal else 'Bacteria')
+    cg_aligned.add_comment('superkingdom', 'Archaea' if cg_aligned.is_archaeal else 'Bacteria')
     cg_aligned.add_comment('alignment_program', str(info_alignment_program))
 
     # fill trees ----------------------------------------------------------
