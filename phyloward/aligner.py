@@ -262,11 +262,11 @@ class _SequenceBunch:
     def items(self):
         return self._data.items()
 
-    def align(self, domian_only=True, nucleotide=False):  # TODO Refactor domain alignment. it's spaghetti code for now :(
+    def align(self, domain_only=True, nucleotide=False):  # TODO Refactor domain alignment. it's spaghetti code for now :(
         tempdir = tempfile.gettempdir()
         tempf_align = os.path.join(tempdir, str(uuid.uuid1()) + '.fasta.tmp')  # TODO reduce disk io?
 
-        if domian_only:
+        if domain_only:
             d = dict((label, seq.nucleotide_domain) if nucleotide else (label, seq.protein_domain)
                      for label, seq in self.items())
         else:
@@ -307,7 +307,7 @@ class _SequenceBunch:
             else:
                 self[label] = _SequenceAligned('', s, aligned=True)  # TODO fix info loss!
         self._is_aligned = True
-        self._is_aligned_by_domain = True if domian_only else False
+        self._is_aligned_by_domain = True if domain_only else False
         self._is_nucl_alignment = True if nucleotide else False
 
         try:  # removes temporary file
