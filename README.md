@@ -42,7 +42,7 @@ The following programs should be installed in advance.
 Make sure that each of `prodigal`, `hmmsearch`, `mafft`, 
   and `FastTree` command is executable in shell.
 
-Alternatively, if you are using Linux or macOS and have `conda` installed, you can install dependencies by a simple command:
+Alternatively, if you are using Linux or macOS and have `conda` installed, you can install dependencies by this one-liner:
 ```
 $ conda install -c bioconda prodigal hmmer mafft fasttree
 ```
@@ -58,7 +58,7 @@ The package can be installed by `pip3`, a package manager for Python 3. (If your
     $ pip3 install .
 
 ### Basic command line use
-After Installation, try invoking the program in shell.
+Try invoking the program in shell.
 
     $ phyloward
 
