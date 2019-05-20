@@ -13,7 +13,7 @@ The package provides the following features:
 * Multiple alignment of core genes
 * Concatenation of core gene sequences
 * Customization of the pipeline by alternative model or parameters
-* Phylogenetic analysis using FastTree or RAxML
+* Phylogenetic analysis using FastTree
 * Calculation of Gene Support Index (GSI) which indicates how many genes
   support the branch in the concatenated phylogenetic tree
 
@@ -37,7 +37,7 @@ The following programs should be installed in advance.
 * [HMMER](http://hmmer.org/download.html) (>= 3.1) : Core gene identification
 * [MAFFT](https://mafft.cbrc.jp/alignment/software/) (>= 7.402) : Multiple alignment
 * [FastTree](http://www.microbesonline.org/fasttree/#Install) (>= 2.1.10) : Phylogeny tree construction
-* ~~RaxML~~ 
+* ~~RaxML~~ (Not implemented yet)
 
 Make sure that each of `prodigal`, `hmmsearch`, `mafft`, 
   and `FastTree` command is executable in shell.
