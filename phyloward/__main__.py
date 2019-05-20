@@ -123,7 +123,7 @@ def _extract_single(file, label=None):
     try:
         # Main Part
         cg_extracted = extractor.extract_core_genes(
-            file, is_archaea=args.archaea, profile=args.custom, label=label,
+            file, is_archaea=args.archaea, profile=os.path.abspath(args.custom), label=label,
             # codon_table=args.table
         )
     except RuntimeError:
@@ -185,8 +185,11 @@ def _pipe_extract():
     outdir = args.out
     workers = args.process if args.process else (os.cpu_count() if os.cpu_count() else 1)
     pref_dom = 'ARCHAEAL' if args.archaea else 'BACTERIAL'
-    if args.custom:
-        print('# Custom HMM profile: ' + args.custom, file=sys.stderr)
+    if args.custom and os.path.isfile(args.custom):
+        print('# Custom HMM profile: ' + os.path.abspath(args.custom), file=sys.stderr)
+    else:
+        print('# ERROR: HMM file does not exist', file=sys.stderr)
+        sys.exit(1)
 
     writer = _writes_extracted(outdir, indent=4)
 
