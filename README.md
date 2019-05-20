@@ -12,8 +12,8 @@ The package provides the following features:
 * Extraction of prokaryotic core genes from genome assemblies
 * Multiple alignment of core genes
 * Concatenation of core gene sequences
-* Customization of the pipeline by alternative model or parameters
 * Phylogenetic analysis using FastTree
+* Customization of the analysis process by alternative model or parameters
 * Calculation of Gene Support Index (GSI) which indicates how many genes
   support the branch in the concatenated phylogenetic tree
 
@@ -63,7 +63,7 @@ Try invoking the program in shell.
     $ phyloward
 
 The above command will simply print help message and exit. 
-The actual pipeline can be executed with two subcommands: `extract` and `align`
+Analysis process can be executed with two subcommands: `extract` and `align`
 
 1.  First, you have to identify core genes from a genome by `phyloward extract` command.
     The following command lets the core genes information from _such.fasta_ file
