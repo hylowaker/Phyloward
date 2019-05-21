@@ -12,8 +12,8 @@ The package provides the following features:
 * Extraction of prokaryotic core genes from genome assemblies
 * Multiple alignment of core genes
 * Concatenation of core gene sequences
-* Customization of the pipeline by alternative model or parameters
-* Phylogenetic analysis using FastTree or RAxML
+* Phylogenetic analysis using FastTree
+* Customization of the analysis process by alternative model or parameters
 * Calculation of Gene Support Index (GSI) which indicates how many genes
   support the branch in the concatenated phylogenetic tree
 
@@ -37,12 +37,12 @@ The following programs should be installed in advance.
 * [HMMER](http://hmmer.org/download.html) (>= 3.1) : Core gene identification
 * [MAFFT](https://mafft.cbrc.jp/alignment/software/) (>= 7.402) : Multiple alignment
 * [FastTree](http://www.microbesonline.org/fasttree/#Install) (>= 2.1.10) : Phylogeny tree construction
-* ~~RaxML~~ 
+* ~~RaxML~~ (Not implemented yet)
 
 Make sure that each of `prodigal`, `hmmsearch`, `mafft`, 
   and `FastTree` command is executable in shell.
 
-Alternatively, if you are using Linux or macOS and have `conda` installed, you can install dependencies by a simple command:
+Alternatively, if you are using Linux or macOS and have `conda` installed, you can install dependencies by this one-liner:
 ```
 $ conda install -c bioconda prodigal hmmer mafft fasttree
 ```
@@ -58,12 +58,12 @@ The package can be installed by `pip3`, a package manager for Python 3. (If your
     $ pip3 install .
 
 ### Basic command line use
-After Installation, try invoking the program in shell.
+Try invoking the program in shell.
 
     $ phyloward
 
 The above command will simply print help message and exit. 
-The actual pipeline can be executed with two subcommands: `extract` and `align`
+Analysis process can be executed with two subcommands: `extract` and `align`
 
 1.  First, you have to identify core genes from a genome by `phyloward extract` command.
     The following command lets the core genes information from _such.fasta_ file
