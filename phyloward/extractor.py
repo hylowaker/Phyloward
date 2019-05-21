@@ -236,9 +236,12 @@ class ExtractedCoreGenes:
                 return seq
         return _Sequence('', '')
 
+    def as_dict(self):
+        return OrderedDict(info=self.info, data=self.data)
+
     def as_json(self, indent=None):
         import json
-        return json.dumps(OrderedDict(info=self.info, data=self.data), indent=indent)
+        return json.dumps(self.as_dict(), indent=indent)
 
     @classmethod
     def from_json(cls, s):

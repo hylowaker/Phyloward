@@ -173,9 +173,9 @@ def _writes_extracted(directory=None, indent=4):
                   file=sys.stderr)
     else:
         if len(cg_extracted_list) > 1:
-            print(json.dumps(cg_extracted_list, indent=indent))
+            print(json.dumps([item.as_dict() for item in cg_extracted_list], indent=indent))
         elif len(cg_extracted_list) == 1:
-            print(json.dumps(cg_extracted_list[0], indent=indent))
+            print(cg_extracted_list[0].as_json(indent=indent))
         else:
             print('{}')
 
