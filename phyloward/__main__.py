@@ -254,10 +254,6 @@ def _pipe_align():
     workers = args.process if args.process else (os.cpu_count() if os.cpu_count() else 1)
     cutoff = args.filter / 100
 
-    print('# Draw tree: {}'.format('YES' if args.tree else 'NO'), file=sys.stderr)
-    print('# Use whole gene: {}'.format('NO' if domain_only else 'YES'), file=sys.stderr)
-    print('# Sequence type: {}'.format(seq_type), file=sys.stderr)
-
     if not 0 <= cutoff <= 1.:
         print('# ERROR: filter parameter must be in range [0, 100]', file=sys.stderr)
         sys.exit(2)
@@ -267,6 +263,10 @@ def _pipe_align():
         parser_align = parser.get_subcommand_parser('align')
         parser_align.error('the following arguments are required: DIRECTORY')
         return
+
+    print('# Draw tree: {}'.format('YES' if args.tree else 'NO'), file=sys.stderr)
+    print('# Use whole gene: {}'.format('NO' if domain_only else 'YES'), file=sys.stderr)
+    print('# Sequence type: {}'.format(seq_type), file=sys.stderr)
 
     # get inputs ----------------------------------------------------------
     if not sys.stdin.isatty():  # alternative input: read from stdin pipe
