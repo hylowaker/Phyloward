@@ -114,6 +114,5 @@ _(We're working on it)_
 _We're working on a manuscript for Phyloward now._
 
 
-## Copyright and License
-Copyright (c) 2018-2019 JaeHeung Han  
+## License
 Phyloward is available under the terms of [GPLv3](LICENSE).
