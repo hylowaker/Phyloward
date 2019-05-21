@@ -4,8 +4,8 @@ from phyloward import __version__
 setup(
     name='phyloward',
     version=__version__,
-    description='Timberjack is a tool for phylogenetic analysis using the prokaryotic core genes.',
-    url='https://github.com/hylowaker/Timberjack',
+    description='Phyloward is a tool for phylogenetic analysis using the prokaryotic core genes.',
+    url='https://github.com/hylowaker/Phyloward',
     author='JaeHeung Han',
     author_email='hylowaker@gmail.com',
     license='GNU General Public License v3.0',
@@ -15,7 +15,7 @@ setup(
             'phyloward = phyloward.__main__:main'
         ]
     },
-    python_requires='>= 3.2',
+    python_requires='>= 3.5',
     include_package_data=True,
     classifiers=[
         'Programming Language :: Python :: 3.5',
