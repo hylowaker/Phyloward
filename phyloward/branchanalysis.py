@@ -8,6 +8,7 @@ import sys
 try:
     from typing import Any, Union, List, Dict, Optional, IO
 except ImportError:
+    print("# ERROR: typing module not found. \n If you are using old version of python, see here 'https://pypi.org/project/typing/'", file=sys.stderr)
     pass
 
 
