@@ -284,6 +284,7 @@ def extract_core_genes(file, *, is_archaea=False, profile=None, **kwargs):
     # ------ hmmsearch ------
     if profile is None:
         profile = PATH_PROFILE_HMM_ARCH if is_archaea else PATH_PROFILE_HMM_BACT
+    profile = os.path.abspath(profile)
 
     hmmsearch = HmmsearchPipe(profile, tmpaa)
     try:
