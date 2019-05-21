@@ -18,7 +18,6 @@ setup(
     python_requires='>= 3.2',
     include_package_data=True,
     classifiers=[
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
