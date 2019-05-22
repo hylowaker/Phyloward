@@ -361,7 +361,7 @@ def _dump_aligned_results(result, outdir, label=None):
     # logfile
     with open('Log.log', 'w') as fh:
         print('HMM profile:', file=fh)
-        print(result._comments['hmm_profile'])
+        print(result._comments['hmm_profile'], file=fh)
 
         print('Genomes included in the analysis:', file=fh)
         print('uid', 'label', sep='\t', file=fh)
